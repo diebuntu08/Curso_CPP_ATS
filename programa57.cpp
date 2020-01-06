@@ -1,4 +1,4 @@
-// Longitud de una cadena de caracteres - Función strlen()
+// Cadenas de caracteres
 
 #include <iostream>
 #include <stdlib.h>
