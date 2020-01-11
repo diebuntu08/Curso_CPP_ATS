@@ -1,11 +1,9 @@
 /*
-La sentencia if
+La sentencia switch
 * 
-* if(condicion){
-*    Instrucciones 1;
-* }
-* else {
-*    Instrucciones 2;
+* switch {
+* case a:
+* default:
 * }
 */
 

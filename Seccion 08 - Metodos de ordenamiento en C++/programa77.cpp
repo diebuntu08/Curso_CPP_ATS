@@ -1,4 +1,4 @@
-/* Ordenamiento por selección Shell
+/* Ordenamiento rápido
 */ 
 
 #include <iostream>
