@@ -19,7 +19,7 @@ struct empleado {
 int main() {
 
     for (int i = 0; i < 2; i++) {
-        fflush(stdin); // Vaciar el buffer y permitir digitar nuevos valores
+
         cout << "Digite su nombre: ";
         cin.getline(empleados[i].nombre, 20, '\n');
         cout << "Digite su direccion: ";
@@ -30,6 +30,7 @@ int main() {
         cin.getline(empleados[i].dir_empleado.provincia, 20, '\n');
         cout << "Salario: ";
         cin >> empleados[i].salario;
+        cin.ignore(); // Vaciar el buffer y permitir digitar nuevos valores
         cout << "\n";
     }
 
