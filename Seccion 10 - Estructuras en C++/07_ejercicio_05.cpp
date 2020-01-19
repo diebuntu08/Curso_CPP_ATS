@@ -1,5 +1,5 @@
 /*
-* Hacer dos estructuras, una llamada promedio que tendrá los siguientes campos:
+* 5. Hacer dos estructuras, una llamada promedio que tendrá los siguientes campos:
 * - nota1
 * - nota2
 * - nota 3
