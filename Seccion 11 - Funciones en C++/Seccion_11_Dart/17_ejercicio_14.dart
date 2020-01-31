@@ -1,8 +1,6 @@
 
 import 'dart:io';
 
-import '14_ejercicio_11.dart';
-
 List<int> vector = new List();
 int tam;
 
