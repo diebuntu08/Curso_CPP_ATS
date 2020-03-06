@@ -41,6 +41,17 @@ def mostrar_arbol(arbol: Nodo, cont: int):
         print(arbol.dato)
         mostrar_arbol(arbol.izq, cont+1)
 
+# Función para buscar un elemento en el árbol
+def buscar_nodo(arbol: Nodo, n: int):
+    if arbol.dato == None:
+        return False
+    elif arbol.dato == n:
+        return True
+    elif n < arbol.dato:
+        return buscar_nodo(arbol.izq, n)
+    else:
+        return buscar_nodo(arbol.der, n)
+
 def menu():
     dato: int
     opcion: int = 0
@@ -48,11 +59,12 @@ def menu():
     
     arbol = Nodo()
     
-    while opcion != 3:
+    while opcion != 4:
         print("\t.:MENU:.")
         print("1. Insertar un nuevo nodo.")
         print("2. Mostrar el arbol.")
-        print("3. Salir.")
+        print("3. Buscar un elemento en el árbol.")
+        print("4. Salir.")
         opcion = int(input("Opción: "))
         
         if opcion == 1:
@@ -62,6 +74,13 @@ def menu():
             print("\nMostrando el árbol completo:\n")
             mostrar_arbol(arbol, contador)
             print()
+        elif opcion == 3:
+            dato = int(input("\nDigite el elemento a buscar: "))
+            if buscar_nodo(arbol, dato):
+                print("El elemento {} ha sido encontrado en el árbol.".format(dato))
+            else:
+                print("El elemento {} no se ha encontrado en el árbol.".format(dato))
+
 
 def main():
     
