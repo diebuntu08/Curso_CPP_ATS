@@ -46,6 +46,40 @@ class Arbol:
             print(nodo.dato)
             self.mostrar_arbol_completo(nodo.izq, cont+1)
     
+    def buscar_nodo(self, nodo: Nodo, n: int):
+        if nodo == None:
+            return False
+        elif nodo.dato == n:
+            return True
+        elif n < nodo.dato:
+            return self.buscar_nodo(nodo.izq, n)
+        else:
+            return self.buscar_nodo(nodo.der, n)
+    
+    def pre_orden(self, nodo: Nodo):
+        if nodo == None:
+            return ""
+        else:
+            print(nodo, end="")
+            self.pre_orden(nodo.izq)
+            self.pre_orden(nodo.der)
+    
+    def in_orden(self, nodo: Nodo):
+        if nodo == None:
+            return ""
+        else:
+            self.pre_orden(nodo.izq)
+            print(nodo, end="")
+            self.pre_orden(nodo.der)
+    
+    def post_orden(self, nodo: Nodo):
+        if nodo == None:
+            return ""
+        else:
+            self.pre_orden(nodo.izq)
+            self.pre_orden(nodo.der)
+            print(nodo, end="")
+    
     def get_raiz(self):
         return self.raiz
 
@@ -56,12 +90,16 @@ def menu():
     
     arbol = Arbol()
     
-    while opcion != 4:
+    while opcion != 7:
         print("\n.:MENU:.")
         print("1. Insertar un nuevo nodo.")
         print("2. Mostrar arbol completo.")
         print("3. Buscar un elemento en el árbol.")
-        print("4. Salir.")
+        print("4. Recorrer el árbol en PreOrden.")
+        print("5. Recorrer el árbol en InOrden.")
+        print("6. Recorrer el árbol en PostOrden.")
+       # print("7. Eliminar un nodo del árbol.")
+        print("7. Salir.")
         opcion = int(input("Opción: "))
         
         if opcion == 1:
@@ -71,6 +109,21 @@ def menu():
         elif opcion == 2:
             print("\nMostrando el árbol completo:")
             arbol.mostrar_arbol_completo(arbol.get_raiz(), contador)
+        elif opcion == 3:
+            elemento = int(input("\nDigite el elemento a buscar: "))
+            if arbol.buscar_nodo(arbol.get_raiz(), elemento):
+                print("El elemento {} SÍ se encuentra en el árbol.".format(elemento))
+            else:
+                print("El elemento {} NO se encuentra en el árbol.".format(elemento))
+        elif opcion == 4:
+            print("\nRecorrido del árbol en PreOrden:")
+            arbol.pre_orden(arbol.get_raiz())
+        elif opcion == 5:
+            print("\nRecorrido del árbol en InOrden:")
+            arbol.in_orden(arbol.get_raiz())
+        elif opcion == 6:
+            print("\nRecorrido del árbol en PostOrden:")
+            arbol.post_orden(arbol.get_raiz())
 
 def main():
     menu()

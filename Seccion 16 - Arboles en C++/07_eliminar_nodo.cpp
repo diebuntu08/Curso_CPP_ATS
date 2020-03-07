@@ -222,7 +222,7 @@ Nodo *minimo(Nodo *arbol) {
 }
 
 // Función para reemplazar un nodo por otro
-void reemplazar(Nodo *arbol, Nodo * nuevo_nodo) {
+void reemplazar(Nodo *arbol, Nodo *nuevo_nodo) {
     if (arbol->padre) {
         // arbol->padre hay que asignarle su nuevo hijo
         if (arbol->dato == arbol->padre->izq->dato) {

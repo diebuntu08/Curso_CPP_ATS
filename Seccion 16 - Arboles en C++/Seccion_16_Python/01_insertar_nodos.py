@@ -1,55 +1,58 @@
 
 class Nodo:
     
-    def __init__(self):
-        self.izq = None
-        self.der = None
-        self.dato = None
-        
-# Función para crear un nuevo nodo
-def crear_nodo(n: int):
-    nuevo_nodo = Nodo()
+    def __init__(self, dato=None, izq=None, der=None):
+        self.dato = dato
+        self.izq = izq
+        self.der = der
+        self.padre = None
     
-    nuevo_nodo.dato = n
-    nuevo_nodo.izq = Nodo()
-    nuevo_nodo.der = Nodo()
-    
-    return nuevo_nodo
+    def __str__(self):
+        return "{} -> ".format(self.dato)
 
-# Función para insertar elementos al arbol
-def insertar_nodo(arbol: Nodo, n: int):
-    if arbol.dato == None: # Si el árbol está vacío
-        arbol = crear_nodo(n)
-    else: # Si el árbol tiene un nodo o más
-        valor_raiz = arbol.dato # Obtenemos el valor raiz
-        
-        if n < valor_raiz:
-            arbol.izq = insertar_nodo(arbol.izq, n) # Si el elemento es menor que la raiz
+class Arbol:
+    
+    def __init__(self):
+        self.raiz = None
+    
+    def agregar_nodo(self, nodo: Nodo):
+        if self.raiz == None:
+            self.raiz = nodo
         else:
-            arbol.der = insertar_nodo(arbol.der, n) # Si el elemento es mayor que la raiz
-    return arbol
+            aux = self.raiz
+            padre = None
+            
+            while aux != None:
+                padre = aux
+                if nodo.dato >= aux.dato:
+                    aux = aux.der
+                else:
+                    aux = aux.izq
+            
+            if nodo.dato >= padre.dato:
+                padre.der = nodo
+            else:
+                padre.izq = nodo
 
 def menu():
-    dato: int
+    n: int
     opcion: int = 0
     
-    arbol = Nodo()
+    arbol = Arbol()
     
     while opcion != 2:
-        print("\t.:MENU:.")
+        print("\n.:MENU:.")
         print("1. Insertar un nuevo nodo.")
         print("2. Salir.")
         opcion = int(input("Opción: "))
         
         if opcion == 1:
-            dato = int(input("\nDigite un número: "))
-            arbol = insertar_nodo(arbol, dato)
+            n = int(input("\nDigite un número entero: "))
+            nodo = Nodo(dato=n)
+            arbol.agregar_nodo(nodo)
 
 def main():
-    
     menu()
 
 if __name__ == "__main__":
     main()
-    
-    
