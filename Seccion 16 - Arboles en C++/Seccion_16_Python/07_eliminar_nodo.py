@@ -33,6 +33,7 @@ class Arbol:
                 padre.der = nodo
             else:
                 padre.izq = nodo
+            nodo.padre = padre
     
     def mostrar_arbol_completo(self, nodo: Nodo, cont: int):
         if nodo == None:
@@ -80,6 +81,41 @@ class Arbol:
             self.pre_orden(nodo.der)
             print(nodo, end="")
     
+    def _minimo(self, nodo: Nodo):
+        current = nodo
+        while current.izq != None:
+            current = current.izq
+        
+        return current
+
+    def eliminar_nodo(self, nodo: Nodo, n: int):
+        if self.raiz == None:
+            print("No hay elementos en el árbol.")
+        else:
+            if n < nodo.dato:
+                self.eliminar_nodo(nodo.izq, n)
+            elif n > nodo.dato:
+                self.eliminar_nodo(nodo.der, n)
+            else:
+                if nodo.izq != None and nodo.der != None:
+                    menor = self._minimo(nodo.der)
+                    nodo.dato = menor.dato
+                    self.eliminar_nodo(nodo.der, menor.dato)
+                elif nodo.der != None:
+                    menor = self._minimo(nodo.der)
+                    nodo.dato = menor.dato
+                    self.eliminar_nodo(nodo.der, menor.dato)
+                elif nodo.izq != None:
+                    nodo.dato = nodo.izq.dato
+                    self.eliminar_nodo(nodo.izq, nodo.izq.dato)
+                else:
+                    if nodo.padre.izq != None:
+                        if nodo.padre.izq.dato == nodo.dato:
+                            nodo.padre.izq = None
+                    if nodo.padre.der != None:
+                        if nodo.padre.der.dato == nodo.dato:
+                            nodo.padre.der = None
+
     def get_raiz(self):
         return self.raiz
 
@@ -90,7 +126,7 @@ def menu():
     
     arbol = Arbol()
     
-    while opcion != 7:
+    while opcion != 8:
         print("\n.:MENU:.")
         print("1. Insertar un nuevo nodo.")
         print("2. Mostrar arbol completo.")
@@ -98,8 +134,8 @@ def menu():
         print("4. Recorrer el árbol en PreOrden.")
         print("5. Recorrer el árbol en InOrden.")
         print("6. Recorrer el árbol en PostOrden.")
-       # print("7. Eliminar un nodo del árbol.")
-        print("7. Salir.")
+        print("7. Eliminar un nodo del árbol.")
+        print("8. Salir.")
         opcion = int(input("Opción: "))
         
         if opcion == 1:
@@ -124,6 +160,10 @@ def menu():
         elif opcion == 6:
             print("\nRecorrido del árbol en PostOrden:")
             arbol.post_orden(arbol.get_raiz())
+        elif opcion == 7:
+            dato = int(input("\nDigite el elemento que desea eliminar: "))
+            arbol.eliminar_nodo(arbol.get_raiz(), dato)
+            print()
 
 def main():
     menu()
