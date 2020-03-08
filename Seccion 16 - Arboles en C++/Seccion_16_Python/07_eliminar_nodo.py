@@ -29,11 +29,11 @@ class Arbol:
                 else:
                     aux = aux.izq
             
+            nodo.padre = padre
             if nodo.dato >= padre.dato:
                 padre.der = nodo
             else:
                 padre.izq = nodo
-            nodo.padre = padre
     
     def mostrar_arbol_completo(self, nodo: Nodo, cont: int):
         if nodo == None:

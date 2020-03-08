@@ -6,106 +6,115 @@ class Nodo {
   int dato = null;
   Nodo izq = null;
   Nodo der = null;
+  Nodo padre = null;
 
-  Nodo();
+  Nodo(this.dato);
+
+  String str() {
+    return "$dato -> ";
+  }
 }
 
-Nodo arbol = new Nodo();
+class Arbol {
 
-// Función para crear un nuevo nodo
-Nodo crearNodo(int n) {
-  Nodo nuevo_nodo = new Nodo();
+  Nodo raiz = null;
 
-  nuevo_nodo.dato = n;
-  nuevo_nodo.izq = new Nodo();
-  nuevo_nodo.der = new Nodo();
+  Arbol();
 
-  return nuevo_nodo;
-}
-
-// Función para insertar un nuevo nodo
-Nodo insertarNodo(Nodo arbol, int n) {
-  if (arbol.dato == null) { // Si el árbol está vacío
-    arbol = crearNodo(n); 
-  } else { // Si el árbol tiene un nodo o más
-    int valorRaiz = arbol.dato; // Obtener el valor de la raiz
-
-    if (n < valorRaiz) {
-      arbol.izq = insertarNodo(arbol.izq, n); // Si el elemento es menor que la raiz
+  void agregarNodo(Nodo nodo) {
+    if (raiz == null) {
+      raiz = nodo;
     } else {
-      arbol.der = insertarNodo(arbol.der, n); // Si el elemento es mayor que la raiz
+      Nodo aux = this.raiz;
+      Nodo padre;
+
+      while (aux != null) {
+        padre = aux;
+        if (nodo.dato >= aux.dato) {
+          aux = aux.der;
+        } else {
+          aux = aux.izq;
+        }
+      }
+
+      nodo.padre = padre;
+      if (nodo.dato >= padre.dato) {
+        padre.der = nodo;
+      } else {
+        padre.izq = nodo;
+      }
     }
   }
 
-  return arbol;
-}
+  void mostrarArbol(Nodo nodo, int cont) {
+    if (nodo == null) {
+      stdout.write("");
+    } else {
+      mostrarArbol(nodo.der, cont+1);
 
-// Función para mostrar el arbol completo
-String mostrarArbol(Nodo arbol, int cont) {
-  if (arbol.dato == null) { // Si el árbol está vacío
-    return "";
-  } else { // Si el árbol no está vacío
-    mostrarArbol(arbol.der, cont+1);
+      for (int i = 0; i < cont; i++) {
+        stdout.write("   ");
+      }
 
-    for (int i = 0; i < cont; i++) {
-      stdout.write("   ");
+      print(nodo.dato);
+      mostrarArbol(nodo.izq, cont+1);
     }
+  }
 
-    print(arbol.dato);
-    mostrarArbol(arbol.izq, cont+1);
+  bool buscarNodo(Nodo nodo, int n) {
+    if (nodo == null) {
+      return false;
+    } else if (nodo.dato == n) {
+      return true;
+    } else if (n < nodo.dato) {
+      return buscarNodo(nodo.izq, n);
+    } else {
+      return buscarNodo(nodo.der, n);
+    }
+  }
+
+  String preOrden(Nodo nodo) {
+    if (nodo == null) {
+      return "";
+    } else {
+      stdout.write(nodo.str());
+      preOrden(nodo.izq);
+      preOrden(nodo.der);
+    }
+  }
+
+  String inOrden(Nodo nodo) {
+    if (nodo == null) {
+      return "";
+    } else {
+      preOrden(nodo.izq);
+      stdout.write(nodo.str());
+      preOrden(nodo.der);
+    }
+  }
+
+  String postOrden(Nodo nodo) {
+    if (nodo == null) {
+      return "";
+    } else {
+      preOrden(nodo.izq);
+      preOrden(nodo.der);
+      stdout.write(nodo.str());
+    }
+  }
+
+  Nodo get_raiz() {
+    return raiz;
   }
 }
 
-// Función para buscar un elemento en el árbol
-bool buscarNodo(Nodo arbol, int n) {
-  if (arbol.dato == null) {
-    return false;
-  } else if (arbol.dato == n) {
-    return true;
-  } else if (n < arbol.dato) {
-    return buscarNodo(arbol.izq, n);
-  } else {
-    return buscarNodo(arbol.der, n);
-  }
-}
-
-// Función para recorrer el árbol en PreOrden
-String preOrden(Nodo arbol) {
-  if (arbol.dato == null) {
-    return "";
-  } else {
-    stdout.write("${arbol.dato} - ");
-    preOrden(arbol.izq);
-    preOrden(arbol.der);
-  }
-}
-
-// Función para recorrer el árbol en InOrden
-String inOrden(Nodo arbol) {
-  if (arbol.dato == null) {
-    return "";
-  } else {
-    preOrden(arbol.izq);
-    stdout.write("${arbol.dato} - ");
-    preOrden(arbol.der);
-  }
-}
-
-// Función para recorrer el árbol en PostOrden
-String postOrden(Nodo arbol) {
-  if (arbol.dato == null) {
-    return "";
-  } else {
-    preOrden(arbol.izq);
-    preOrden(arbol.der);
-    stdout.write("${arbol.dato} - ");
-  }
-}
-
-
-// Función del menú
 void menu() {
-  int dato, opcion, contador = 0;
+  int n;
+  int opcion = 0;
+  Nodo nodo;
+  int contador = 0;
+
+  Arbol arbol = new Arbol();
 
   do {
     stdout.writeln("\t.:MENU:.");
@@ -121,38 +130,37 @@ void menu() {
 
     switch (opcion) {
       case 1:
-        stdout.write("\nDigite un número: ");
-        dato = int.parse(stdin.readLineSync());
-        arbol = insertarNodo(arbol, dato);
-        print("");
+        stdout.write("\nDigite un número entero: ");
+        n = int.parse(stdin.readLineSync());
+        nodo = new Nodo(n);
+        arbol.agregarNodo(nodo);
         break;
       case 2:
-        print("\nMostrando el árbol completo:");
-        String _a = mostrarArbol(arbol, contador);
-        print("");
+        stdout.writeln("\nMostrando el árbol completo:");
+        arbol.mostrarArbol(arbol.get_raiz(), contador);
         break;
       case 3:
         stdout.write("\nDigite el elemento a buscar: ");
-        dato = int.parse(stdin.readLineSync());
-        if (buscarNodo(arbol, dato)) {
-          print("El elemento $dato ha sido encontrado en el árbol.");
+        n = int.parse(stdin.readLineSync());
+        if (arbol.buscarNodo(arbol.get_raiz(), n)) {
+          print("El elemento $n SÍ se encuentra en el árbol.");
         } else {
-          print("El elemento $dato no ha sido encontrado en el árbol.");
+          print("El elemento $n NO se encuentra en el árbol.");
         }
         break;
       case 4:
-        print("\nRecorrido en PreOrden.");
-        String _a = preOrden(arbol);
+        print("\nRecorrido del árbol en PreOrden:");
+        arbol.preOrden(arbol.get_raiz());
         print("");
         break;
       case 5:
-        print("\nRecorrido en InOrden.");
-        String _a = inOrden(arbol);
+        print("\nRecorrido del árbol en InOrden:");
+        arbol.inOrden(arbol.get_raiz());
         print("");
         break;
       case 6:
-        print("\nRecorrido en PostOrden.");
-        String _a = postOrden(arbol);
+        print("\nRecorrido del árbol en PostOrden:");
+        arbol.postOrden(arbol.get_raiz());
         print("");
         break;
       
@@ -162,9 +170,8 @@ void menu() {
   } while (opcion != 7);
 }
 
-// Función principal main()
 void main() {
 
   menu();
-  
+
 }

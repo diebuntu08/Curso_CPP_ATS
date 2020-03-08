@@ -56,12 +56,11 @@ def menu():
     
     arbol = Arbol()
     
-    while opcion != 4:
+    while opcion != 3:
         print("\n.:MENU:.")
         print("1. Insertar un nuevo nodo.")
         print("2. Mostrar arbol completo.")
-        print("3. Buscar un elemento en el árbol.")
-        print("4. Salir.")
+        print("3. Salir.")
         opcion = int(input("Opción: "))
         
         if opcion == 1:

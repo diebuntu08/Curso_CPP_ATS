@@ -83,6 +83,74 @@ class Arbol {
     }
   }
 
+  String inOrden(Nodo nodo) {
+    if (nodo == null) {
+      return "";
+    } else {
+      preOrden(nodo.izq);
+      stdout.write(nodo.str());
+      preOrden(nodo.der);
+    }
+  }
+
+  String postOrden(Nodo nodo) {
+    if (nodo == null) {
+      return "";
+    } else {
+      preOrden(nodo.izq);
+      preOrden(nodo.der);
+      stdout.write(nodo.str());
+    }
+  }
+
+  Nodo _minimo(Nodo nodo) {
+    Nodo current = nodo;
+    while (current.izq != null) {
+      current = current.izq;
+    }
+
+    return current;
+  }
+
+  void eliminarNodo(Nodo nodo, int n) {
+    Nodo menor;
+
+    if (this.raiz == null) {
+      print("No hay elementos en el árbol.");
+    } else {
+      if (n < nodo.dato) {
+        eliminarNodo(nodo.izq, n);
+      } else if (n > nodo.dato) {
+        eliminarNodo(nodo.der, n);
+      } else {
+        if ((nodo.izq != null) && (nodo.der != null)) {
+          menor = _minimo(nodo.der);
+          nodo.dato = menor.dato;
+          eliminarNodo(nodo.der, menor.dato);
+        } else if (nodo.der != null) {
+          menor = _minimo(nodo.der);
+          nodo.dato = menor.dato;
+          eliminarNodo(nodo.der, menor.dato);
+        } else if (nodo.izq != null) {
+          nodo.dato = nodo.izq.dato;
+          eliminarNodo(nodo.izq, nodo.izq.dato);
+        } else {
+          if (nodo.padre.izq != null) {
+            if (nodo.padre.izq.dato == nodo.dato) {
+              nodo.padre.izq = null;
+            }
+          }
+
+          if (nodo.padre.der != null) {
+            if (nodo.padre.der.dato == nodo.dato) {
+              nodo.padre.der = null;
+            }
+          }
+        }
+      }
+    }
+  }
+
   Nodo get_raiz() {
     return raiz;
   }
@@ -102,7 +170,10 @@ void menu() {
     stdout.writeln("2. Mostrar el árbol completo.");
     stdout.writeln("3. Buscar un elemento en el árbol.");
     stdout.writeln("4. Recorrer el árbol en PreOrden.");
-    stdout.writeln("5. Salir.");
+    stdout.writeln("5. Recorrer el árbol en InOrden.");
+    stdout.writeln("6. Recorrer el árbol en PostOrden.");
+    stdout.writeln("7. Eliminar un nodo del árbol.");
+    stdout.writeln("8. Salir.");
     stdout.write("Opción: ");
     opcion = int.parse(stdin.readLineSync());
 
@@ -131,11 +202,27 @@ void menu() {
         arbol.preOrden(arbol.get_raiz());
         print("");
         break;
+      case 5:
+        print("\nRecorrido del árbol en InOrden:");
+        arbol.inOrden(arbol.get_raiz());
+        print("");
+        break;
+      case 6:
+        print("\nRecorrido del árbol en PostOrden:");
+        arbol.postOrden(arbol.get_raiz());
+        print("");
+        break;
+      case 7:
+        stdout.write("\nDigite el elemento que desea eliminar: ");
+        n = int.parse(stdin.readLineSync());
+        arbol.eliminarNodo(arbol.get_raiz(), n);
+        print("");
+        break;
       
       default:
         break;
     }
-  } while (opcion != 5);
+  } while (opcion != 8);
 }
 
 void main() {

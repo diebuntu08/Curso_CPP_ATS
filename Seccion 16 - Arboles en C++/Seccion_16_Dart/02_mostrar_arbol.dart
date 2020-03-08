@@ -6,59 +6,73 @@ class Nodo {
   int dato = null;
   Nodo izq = null;
   Nodo der = null;
+  Nodo padre = null;
 
-  Nodo();
+  Nodo(this.dato);
+
+  String str() {
+    return "$dato -> ";
+  }
 }
 
-Nodo arbol = new Nodo();
+class Arbol {
 
-// Función para crear un nuevo nodo
-Nodo crearNodo(int n) {
-  Nodo nuevo_nodo = new Nodo();
+  Nodo raiz = null;
 
-  nuevo_nodo.dato = n;
-  nuevo_nodo.izq = new Nodo();
-  nuevo_nodo.der = new Nodo();
+  Arbol();
 
-  return nuevo_nodo;
-}
-
-// Función para insertar un nuevo nodo
-Nodo insertarNodo(Nodo arbol, int n) {
-  if (arbol.dato == null) { // Si el árbol está vacío
-    arbol = crearNodo(n); 
-  } else { // Si el árbol tiene un nodo o más
-    int valorRaiz = arbol.dato; // Obtener el valor de la raiz
-
-    if (n < valorRaiz) {
-      arbol.izq = insertarNodo(arbol.izq, n); // Si el elemento es menor que la raiz
+  void agregarNodo(Nodo nodo) {
+    if (raiz == null) {
+      raiz = nodo;
     } else {
-      arbol.der = insertarNodo(arbol.der, n); // Si el elemento es mayor que la raiz
+      Nodo aux = this.raiz;
+      Nodo padre;
+
+      while (aux != null) {
+        padre = aux;
+        if (nodo.dato >= aux.dato) {
+          aux = aux.der;
+        } else {
+          aux = aux.izq;
+        }
+      }
+
+      nodo.padre = padre;
+      if (nodo.dato >= padre.dato) {
+        padre.der = nodo;
+      } else {
+        padre.izq = nodo;
+      }
     }
   }
 
-  return arbol;
-}
+  void mostrarArbol(Nodo nodo, int cont) {
+    if (nodo == null) {
+      stdout.write("");
+    } else {
+      mostrarArbol(nodo.der, cont+1);
 
-// Función para mostrar el arbol completo
-String mostrarArbol(Nodo arbol, int cont) {
-  if (arbol.dato == null) { // Si el árbol está vacío
-    return "";
-  } else { // Si el árbol no está vacío
-    mostrarArbol(arbol.der, cont+1);
+      for (int i = 0; i < cont; i++) {
+        stdout.write("   ");
+      }
 
-    for (int i = 0; i < cont; i++) {
-      stdout.write("   ");
+      print(nodo.dato);
+      mostrarArbol(nodo.izq, cont+1);
     }
+  }
 
-    print(arbol.dato);
-    mostrarArbol(arbol.izq, cont+1);
+  Nodo get_raiz() {
+    return raiz;
   }
 }
 
-// Función del menú
 void menu() {
-  int dato, opcion, contador = 0;
+  int n;
+  int opcion = 0;
+  Nodo nodo;
+  int contador = 0;
+
+  Arbol arbol = new Arbol();
 
   do {
     stdout.writeln("\t.:MENU:.");
@@ -70,15 +84,14 @@ void menu() {
 
     switch (opcion) {
       case 1:
-        stdout.write("\nDigite un número: ");
-        dato = int.parse(stdin.readLineSync());
-        arbol = insertarNodo(arbol, dato);
-        print("");
+        stdout.write("\nDigite un número entero: ");
+        n = int.parse(stdin.readLineSync());
+        nodo = new Nodo(n);
+        arbol.agregarNodo(nodo);
         break;
       case 2:
-        print("\nMostrando el árbol completo:");
-        String _a = mostrarArbol(arbol, contador);
-        print("");
+        stdout.writeln("\nMostrando el árbol completo:");
+        arbol.mostrarArbol(arbol.get_raiz(), contador);
         break;
       
       default:
@@ -87,9 +100,8 @@ void menu() {
   } while (opcion != 3);
 }
 
-// Función principal main()
 void main() {
 
   menu();
-  
+
 }

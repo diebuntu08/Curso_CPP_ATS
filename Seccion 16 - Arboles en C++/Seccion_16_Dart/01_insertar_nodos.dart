@@ -6,41 +6,53 @@ class Nodo {
   int dato;
   Nodo izq;
   Nodo der;
+  Nodo padre;
 
-  Nodo();
+  Nodo(this.dato);
+
+  String str() {
+    return "$dato -> ";
+  }
 }
 
-Nodo arbol = new Nodo();
+class Arbol {
 
-// Función para crear un nuevo nodo
-Nodo crearNodo(int n) {
-  Nodo nuevo_nodo = new Nodo();
+  Nodo raiz;
 
-  nuevo_nodo.dato = n;
-  nuevo_nodo.izq = null;
-  nuevo_nodo.der = null;
+  Arbol();
 
-  return nuevo_nodo;
-}
-
-// Función para insertar un nuevo nodo
-void insertarNodo(Nodo arbol, int n) {
-  if (arbol.dato == null) { // Si el árbol está vacío
-    arbol = crearNodo(n); 
-  } else { // Si el árbol tiene un nodo o más
-    int valorRaiz = arbol.dato; // Obtener el valor de la raiz
-
-    if (n < valorRaiz) {
-      insertarNodo(arbol.izq, n); // Si el elemento es menor que la raiz
+  void agregarNodo(Nodo nodo) {
+    if (raiz == null) {
+      raiz = nodo;
     } else {
-      insertarNodo(arbol.der, n); // Si el elemento es mayor que la raiz
+      Nodo aux = raiz;
+      Nodo padre;
+
+      while (aux != null) {
+        padre = aux;
+        if (nodo.dato >= aux.dato) {
+          aux = aux.der;
+        } else {
+          aux = aux.izq;
+        }
+
+        nodo.padre = padre;
+        if (nodo.dato >= padre.dato) {
+          padre.der = nodo;
+        } else {
+          padre.izq = nodo;
+        }
+      }
     }
   }
 }
 
-// Función del menú
 void menu() {
-  int dato, opcion;
+  int n;
+  int opcion = 0;
+  Nodo nodo;
+
+  Arbol arbol = new Arbol();
 
   do {
     stdout.writeln("\t.:MENU:.");
@@ -51,10 +63,10 @@ void menu() {
 
     switch (opcion) {
       case 1:
-        stdout.write("\nDigite un número: ");
-        dato = int.parse(stdin.readLineSync());
-        insertarNodo(arbol, dato);
-        print("");
+        stdout.write("\nDigite un número entero: ");
+        n = int.parse(stdin.readLineSync());
+        nodo = new Nodo(n);
+        arbol.agregarNodo(nodo);
         break;
       
       default:
@@ -66,5 +78,5 @@ void menu() {
 void main() {
 
   menu();
-  
+
 }
