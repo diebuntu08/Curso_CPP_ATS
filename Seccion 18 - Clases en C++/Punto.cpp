@@ -1,5 +1,5 @@
 
-#include "Punto.h";
+#include "Punto.h"
 
 // Establecemos el valor de x
 void Punto::setX(int valorX) {

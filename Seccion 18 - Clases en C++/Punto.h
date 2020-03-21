@@ -20,4 +20,4 @@ class Punto {
         void setY(int valorY); // establecemos el valor de y
         int getX(); // obtenemos el valor de x
         int getY(); // obtenemos el valor de y
-}
+};
