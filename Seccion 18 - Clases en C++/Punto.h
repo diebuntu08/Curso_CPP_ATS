@@ -2,7 +2,9 @@
 
 class Punto {
     // Atributos
-    private:
+    // public: Puede ser accedido por cualquiera
+    // private: Puede ser accedido solo por la misma clase y sus métodos
+    protected: // Puede ser accedido solo por la misma clase o sus hijas y sus métodos
         int x, y;
     
     // Métodos
