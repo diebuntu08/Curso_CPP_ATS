@@ -12,9 +12,9 @@ class Perro {
     
     // Métodos
     public:
-        Perro(string _nombre, string _raza) {
-            nombre = _nombre;
-            raza = _raza;
+        Perro(string nombre, string raza) {
+            this->nombre = nombre;
+            this->raza = raza;
         }
 
         ~Perro() { // Destructor
