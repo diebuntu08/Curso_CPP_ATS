@@ -1,3 +1,6 @@
+// Guardián de inclusión múltiple
+#ifndef VEHICULO_H
+#define VEHICULO_H
 
 #include <iostream>
 
@@ -40,3 +43,5 @@ class Vehiculo {
             return mensaje;
         }
 };
+
+#endif
