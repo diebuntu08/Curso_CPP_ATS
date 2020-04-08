@@ -10,12 +10,14 @@ class GatoDomestico : public Felino {
         string nombreDuenio;
 
     public:
-        GatoDomestico(int anioNacimiento, string lugarNacimiento, string raza, string nombreDuenio) : Felino(anioNacimiento, lugarNacimiento, raza,) {
+        GatoDomestico(int anioNacimiento, string lugarNacimiento, string raza, string nombreDuenio) : Felino(anioNacimiento, lugarNacimiento, raza) {
             this->nombreDuenio = nombreDuenio;
         }
 
+        ~GatoDomestico() {}
+
         string imprimirDieta() {
-            return "La dieta deñ gato es con Whiskas\n";
+            return "La dieta del gato es con Whiskas\n";
         }
 
         void setNombreDuenio(string nuevoNombre) {

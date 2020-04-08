@@ -20,6 +20,8 @@ class Felino : public Mamifero {
 
         }
 
+        ~Felino() {}
+
         string imprimirDieta() {
             return "La dieta del felino es a base de carne.\n";
         }

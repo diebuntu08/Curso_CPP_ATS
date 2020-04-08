@@ -18,6 +18,8 @@ class Mamifero {
             this->raza = raza;
         }
 
+        ~Mamifero() {}
+
         virtual string imprimirDieta() = 0;
 
         int getAnioNacimiento() {
