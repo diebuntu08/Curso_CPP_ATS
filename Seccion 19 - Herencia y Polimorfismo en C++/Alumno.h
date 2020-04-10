@@ -1,3 +1,5 @@
+#ifndef ALUMNO_H
+#define ALUMNO_H
 
 #include <iostream>
 
@@ -13,6 +15,8 @@ class Alumno {
             this->nombreCarrera = nombreCarrera;
         }
 
+        ~Alumno() {}
+
         void mostrarDatos() {
             cout << "Nombre de la carrera: " << nombreCarrera << endl;
         }
@@ -25,3 +29,5 @@ class Alumno {
             return nombreCarrera;
         }
 };
+
+#endif

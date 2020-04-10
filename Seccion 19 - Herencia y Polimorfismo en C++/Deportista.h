@@ -1,3 +1,5 @@
+#ifndef DEPORTISTA_H
+#define DEPORTISTA_H
 
 #include <iostream>
 
@@ -13,6 +15,8 @@ class Deportista {
             this->nombreEntrenador = nombreEntrenador;
         }
 
+        ~Deportista() {}
+
         void mostrarDatos() {
             cout << "Nombre del entrenador: " << nombreEntrenador << endl;
         }
@@ -25,3 +29,5 @@ class Deportista {
             return nombreEntrenador;
         }
 };
+
+#endif

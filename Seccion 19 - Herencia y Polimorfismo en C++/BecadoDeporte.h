@@ -15,6 +15,8 @@ class BecadoDeporte : public Alumno, public Deportista {
             this->montoBeca = montoBeca;
         }
 
+        ~BecadoDeporte() {}
+
         void mostrarDatos() {
             Alumno::mostrarDatos();
             Deportista::mostrarDatos();
