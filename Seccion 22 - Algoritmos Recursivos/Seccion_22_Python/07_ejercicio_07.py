@@ -1,7 +1,7 @@
 
 import numpy as np
 
-N = 8
+N = 10
 reinas = np.zeros(N)
 solucion = False
 
